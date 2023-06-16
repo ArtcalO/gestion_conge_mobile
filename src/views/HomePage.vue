@@ -1,28 +1,59 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
+    <ion-header :translucent="true" >
+      <ion-toolbar color="primary">
+        <ion-title>Liste Employées</ion-title>
+        <ion-icon :icon="person" size="large" slot="end"></ion-icon>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div>
+    <ion-content :fullscreen="true" class="ion-padding">
+      <ion-list>
+        <ion-item v-for="i in 20" :key="i" >
+          <ion-avatar slot="start" ><img src="../assets/logo.jpg"></ion-avatar>
+          <ion-label>
+            <h2>Employe num : {{i}}</h2>
+            <p>Bonjour</p>
+          </ion-label>
+          <ion-button slot="end" color="primary">
+            <ion-icon :icon="add"></ion-icon>
+          Congé</ion-button>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+<script>
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonIcon,
+  IonList,
+  IonItem,
+  IonAvatar,
+  IonLabel,
+  IonButton,
+
+} from '@ionic/vue';
+
+import {person, add} from "ionicons/icons"
+export default{
+  data(){
+    return {
+      person,
+      add,
+    }
+  },
+  components:{
+    IonContent,IonHeader,IonIcon,IonButton,
+    IonPage, IonTitle, IonToolbar,
+    IonList,IonItem, IonAvatar,IonLabel
+  }
+}
 </script>
 
 <style scoped>
