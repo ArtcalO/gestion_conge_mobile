@@ -12,13 +12,13 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-item>
-      <ion-input label-placement="stacked" label="Debut congé" v-model="name" type="date"></ion-input>
+      <ion-input label-placement="stacked" label="Debut congé" v-model="conge_debut" type="date"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label-placement="stacked" label="Fin congé" v-model="name" placeholder="Your name" type="date"></ion-input>
+      <ion-input label-placement="stacked" label="Fin congé" v-model="conge_fin" placeholder="Your name" type="date"></ion-input>
     </ion-item>
     <br>
-    <ion-button expand="block">Valider congé</ion-button>
+    <ion-button expand="block" @click="ajouterConge">Valider congé</ion-button>
   </ion-content>
 </template>
 
@@ -38,6 +38,13 @@
 
   export default defineComponent({
     name: 'AddCongeModal',
+    props:["idEmployeProps",],
+    data(){
+      return {
+        conge_debut:null,
+        conge_fin:null,
+      }
+    },
     components: { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonItem, IonInput },
     methods: {
       cancel() {
@@ -46,6 +53,15 @@
       confirm() {
         return modalController.dismiss(this.name, 'confirm');
       },
+      ajouterConge(){
+        let data = {
+          idEmploye:this.idEmployeProps,
+          conge_debut : this.conge_debut,
+          conge_fin : this.conge_fin
+        }
+
+        return modalController.dismiss(data,'addCongeEmited')
+      }
     },
   });
 </script>

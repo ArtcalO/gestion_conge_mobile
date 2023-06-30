@@ -9,18 +9,18 @@
 
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-list>
-        <ion-item v-for="i in 20" :key="i" >
-          <ion-avatar @click="openPhoto" slot="start" ><img src="../assets/logo.jpg"></ion-avatar>
+        <ion-item v-for="employe in listeEmployes" :key="employe.id" >
           <ion-label>
-            <h2>Employe num : {{i}}</h2>
-            <p>Bonjour</p>
+            <h2>{{employe.nom}} {{employe.prenom}}</h2>
+            <p>{{employe.genre}}</p>
           </ion-label>
-          <ion-button @click="ajouterConge" slot="end" color="primary">
+
+          <ion-button @click="ajouterConge(employe.id)" slot="end" color="primary">
             <ion-icon :icon="add"></ion-icon>
-          Congé</ion-button>
+          </ion-button>
           <ion-button @click="modifierEmploye" slot="end" color="warning">
-            <ion-icon :icon="add"></ion-icon>
-          Modifier</ion-button>
+            <ion-icon :icon="pencil"></ion-icon>
+          </ion-button>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -37,14 +37,13 @@ import {
   IonIcon,
   IonList,
   IonItem,
-  IonAvatar,
   IonLabel,
   IonButton,
   modalController,
 
 } from '@ionic/vue';
 
-import {person, add} from "ionicons/icons"
+import {person, add, pencil} from "ionicons/icons"
 import AddCongeModal from "../components/AddCongeModal.vue"
 import DetailsPhoto from "../components/DetailsPhoto.vue"
 import ModifierEmploye from "../components/ModifierEmploye.vue"
@@ -53,17 +52,39 @@ export default{
     return {
       person,
       add,
+      pencil,
+       listeEmployes:[
+          {
+              id:1,
+              nom:"Artcal'O",
+              prenom:"Lone Wolf",
+              age:45,
+              genre:"F",
+              conge_debut:null,
+              conge_fin:null
+          },
+          {
+              id:2,
+              nom:"TLW",
+              prenom:"Wolverine",
+              age:45,
+              genre:"F",
+              conge_debut:null,
+              conge_fin:null
+          },
+      ]
     }
   },
   components:{
     IonContent,IonHeader,IonIcon,IonButton,
     IonPage, IonTitle, IonToolbar,
-    IonList,IonItem, IonAvatar,IonLabel
+    IonList,IonItem,IonLabel
   },
   methods:{
-    async ajouterConge() {
+    async ajouterConge(employeId) {
         const modal = await modalController.create({
           component: AddCongeModal,
+          componentProps:{idEmployeProps:employeId}
         });
         modal.present();
 
@@ -71,6 +92,12 @@ export default{
 
         if (role === 'confirm') {
           this.message = `Hello, ${data}!`;
+        }
+        if (role === 'addCongeEmited') {
+          let idx = this.listeEmployes.findIndex(x => x.id=data.idEmploye)
+          this.listeEmployes[idx].conge_debut=data.conge_debut
+          this.listeEmployes[idx].conge_fin=data.conge_fin
+          console.log(this.listeEmployes)
         }
     },
     async modifierEmploye() {
